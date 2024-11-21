@@ -1,0 +1,44 @@
+@page "/manage-feedback"
+
+@attribute [Authorize]
+
+<PageTitle>Feedbacks</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Feedbacks" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid" ColumnWidth="200px"   AllowFiltering="false" FilterMode="FilterMode.Advanced" AllowPaging="false" AllowSorting="false" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@feedbacks" TItem="MyFeedbacks.Models.FeedbackDb.Feedback" RowSelect="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="MyFeedbacks.Models.FeedbackDb.Feedback" Property="FeedbackId" Title="ID">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="MyFeedbacks.Models.FeedbackDb.Feedback" Property="CustomerName" Title="Customer Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="MyFeedbacks.Models.FeedbackDb.Feedback" Property="FeedbackMessage" Title="Feedback Message">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="MyFeedbacks.Models.FeedbackDb.Feedback" Property="DateSubmitted" Title="Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="MyFeedbacks.Models.FeedbackDb.Feedback" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="feedback">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, feedback)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>
